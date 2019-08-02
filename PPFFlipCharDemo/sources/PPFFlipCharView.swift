@@ -235,7 +235,16 @@ import UIKit
 
 extension PPFFlipCharView {
     /// 改变字符
-    public func change(fromChar:Character,toChar:Character,animation:Bool) {
+    ///
+    /// - Parameters:
+    ///   - fromChar: 开始字符
+    ///   - toChar: 目标字符
+    ///   - force: 如果开始字符和目标字符一样,是否也变换
+    ///   - animation: 是否动画
+    public func change(fromChar:Character,toChar:Character,force:Bool,animation:Bool) {
+        guard force || fromChar != toChar else{
+            return
+        }
         self.char = toChar
         if animation {
             animateTopToMiddle(char: fromChar) {[weak self] in
@@ -250,22 +259,23 @@ extension PPFFlipCharView {
     }
     
     /// 改变字符
-    public func convertToChar(_ toChar:Character,animation:Bool = true){
-        change(fromChar: char, toChar: toChar, animation: animation)
+    public func convertToChar(_ toChar:Character,force:Bool,animation:Bool = true){
+        change(fromChar: char, toChar: toChar,force: force, animation: animation)
     }
+    
     /// 改变字符
-    @objc public func change(fromChar:String,toChar:String,animation:Bool) {
+    @objc public func change(fromChar:String,toChar:String,force:Bool,animation:Bool) {
         guard fromChar.count == 1 && toChar.count == 1 else {
             fatalError("fromChar and toChar must be one Charactor")
         }
-        change(fromChar: Character(fromChar), toChar: Character(toChar), animation: animation)
+        change(fromChar: Character(fromChar), toChar: Character(toChar),force: force, animation: animation)
     }
     /// 改变字符
-    @objc public func convertToChar(_ toChar:String,animation:Bool = true){
+    @objc public func convertToChar(_ toChar:String,force:Bool,animation:Bool = true){
         guard toChar.count == 1 else {
             fatalError("toChar must be one Charactor")
         }
-        change(fromChar: char, toChar: Character(toChar), animation: animation)
+        change(fromChar: char, toChar: Character(toChar),force: force, animation: animation)
     }
 }
 

@@ -104,14 +104,13 @@ class ViewController: UIViewController {
     }
     
     @objc func fsa() {
-//        let c = arc4random_uniform(10)
-        fv0.convertToChar(randomNumber())
-        fv1.convertToChar(randomNumber())
-        fv2.convertToChar(randomNumber())
-
-        fv3.convertToChar(randomChar(), animation: false)
-        fv4.convertToChar(randomChar(), animation:false)
-        fv5.convertToChar(randomNumber(),animation:false)
+        fv0.convertToChar(randomNumber(),force:false)
+        fv1.convertToChar(randomNumber(),force:false)
+        fv2.convertToChar(randomNumber(),force:true)
+        
+        fv3.convertToChar(randomChar(),force:false, animation: false)
+        fv4.convertToChar(randomChar(),force:false, animation:false)
+        fv5.convertToChar(randomNumber(),force:false,animation:false)
 
     }
     
