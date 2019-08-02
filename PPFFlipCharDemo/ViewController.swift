@@ -10,18 +10,89 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var v:PPFFlipCharView!
-    
+    var fv0:PPFFlipCharView!
+    var fv1:PPFFlipCharView!
+    var fv2:PPFFlipCharView!
+
+    var fv3:PPFFlipCharView!
+    var fv4:PPFFlipCharView!
+    var fv5:PPFFlipCharView!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray
         // Do any additional setup after loading the view.
         
-        v = PPFFlipCharView(frame: CGRect(x: 50, y: 50, width: 200, height: 300), char: Character("C"))
-        v.topCharFont = UIFont.systemFont(ofSize: 200)
-        v.bottomCharFont = UIFont.systemFont(ofSize: 200)
-        view.addSubview(v)
+        fv0 = {
+            let v = PPFFlipCharView(frame: CGRect(x: 50, y: 50, width: 100, height: 150), char: Character("C"))
+            v.topCharFont = UIFont.systemFont(ofSize: 100)
+            v.bottomCharFont = UIFont.systemFont(ofSize: 100)
+            view.addSubview(v)
+            return v
+        }()
+        
+        fv1 = {
+            let v = PPFFlipCharView(frame: CGRect(x: 160, y: 50, width: 100, height: 150), char: Character("A"))
+            v.topCharFont = UIFont.systemFont(ofSize: 130,weight: .bold)
+            v.bottomCharFont = UIFont.systemFont(ofSize: 130,weight: .bold)
+            v.topCharColor = UIColor.black
+            v.bottomCharColor = UIColor.brown
+            
+            v.topCharBackgroundColor = UIColor.brown
+            v.bottomCharBackground = UIColor.white
+            
+            v.interspace = 10
+            
+            view.addSubview(v)
+            return v
+        }()
+
+        fv2 = {
+            let v = PPFFlipCharView(frame: CGRect(x: 270, y: 50, width: 100, height: 150), char: Character("0"))
+            v.topCharFont = UIFont.systemFont(ofSize: 100)
+            v.bottomCharFont = UIFont.systemFont(ofSize: 100)
+            v.topCharBackgroundColor = UIColor.red
+            v.bottomCharBackground = UIColor.purple
+            view.addSubview(v)
+            return v
+        }()
+
+        
+        fv3 = {
+            let v = PPFFlipCharView(frame: CGRect(x: 50, y: 210, width: 100, height: 150), char: Character("C"))
+            v.topCharFont = UIFont.systemFont(ofSize: 100)
+            v.bottomCharFont = UIFont.systemFont(ofSize: 100)
+            view.addSubview(v)
+            return v
+        }()
+        
+        fv4 = {
+            let v = PPFFlipCharView(frame: CGRect(x: 160, y: 210, width: 100, height: 150), char: Character("A"))
+            v.topCharFont = UIFont.systemFont(ofSize: 100)
+            v.bottomCharFont = UIFont.systemFont(ofSize: 100)
+            
+            v.topCharColor = UIColor.black
+            v.bottomCharColor = UIColor.black
+            
+            v.topCharBackgroundColor = UIColor.white
+            v.bottomCharBackground = UIColor.white
+
+            v.interspace = 10
+            
+            view.addSubview(v)
+            return v
+        }()
+        
+        fv5 = {
+            let v = PPFFlipCharView(frame: CGRect(x: 270, y: 210, width: 100, height: 150), char: Character("0"))
+            v.topCharFont = UIFont.systemFont(ofSize: 100)
+            v.bottomCharFont = UIFont.systemFont(ofSize: 100)
+            v.topCharBackgroundColor = UIColor.red
+            v.bottomCharBackground = UIColor.purple
+            view.addSubview(v)
+            return v
+        }()
         
         let _:UIButton = {
             let b = UIButton(type: .infoDark)
@@ -33,8 +104,26 @@ class ViewController: UIViewController {
     }
     
     @objc func fsa() {
-        let c = arc4random_uniform(10)
-        v.convertToChar(Character("\(c)"), animation: true)
+//        let c = arc4random_uniform(10)
+        fv0.convertToChar(randomNumber())
+        fv1.convertToChar(randomNumber())
+        fv2.convertToChar(randomNumber())
+
+        fv3.convertToChar(randomChar(), animation: false)
+        fv4.convertToChar(randomChar(), animation:false)
+        fv5.convertToChar(randomNumber(),animation:false)
+
     }
+    
+    func randomChar() -> Character {
+        let a = UInt8(arc4random_uniform(UInt32(UInt8.max)))
+        let b = Unicode.Scalar(a)
+        return Character(b)
+    }
+    func randomNumber() -> Character {
+        let c = arc4random_uniform(10)
+        return Character("\(c)")
+    }
+
 }
 

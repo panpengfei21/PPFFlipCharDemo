@@ -11,6 +11,9 @@ import UIKit
 @objc public class PPFFlipCharView: UIView {
     var char:Character
     
+    /// 景深
+    let m34:CGFloat = -1.0/500.0
+
     /// 上部字符字体
     @objc public var topCharFont:UIFont {
         get {
@@ -34,10 +37,10 @@ import UIKit
     /// 上部字符颜色
     @objc public var topCharColor:UIColor {
         get {
-            return bottomV.charLabel.textColor
+            return topV.charLabel.textColor
         }
         set {
-            bottomV.charLabel.textColor = newValue
+            topV.charLabel.textColor = newValue
         }
     }
     
@@ -75,6 +78,9 @@ import UIKit
         didSet{
             topVConstraint.constant = interspace / -2
             bottomVConstraint.constant = interspace / 2
+            
+            topV.setLabelUpOrDownConstraint(constant: interspace / 2)
+            bottomV.setLabelUpOrDownConstraint(constant: interspace / 2)
         }
     }
     /// 上部动画的持续时间
@@ -150,9 +156,8 @@ import UIKit
 
     /// 动画,上部到中部
     private func animateTopToMiddle(char:Character,completionHandle: (()->())?) {
-        let m34:CGFloat = -1.0/500.0
-        
         let height = (bounds.height - interspace) / 2 // haflCharView的高度
+        
         let v:PPFHalfCharView = {
             let v = PPFHalfCharView(position: .down, offset: CGPoint(x: 0, y: interspace / 2))
             v.frame = CGRect(x: 0, y: 0, width: bounds.width, height: height)
@@ -167,10 +172,10 @@ import UIKit
         }()
         
         topV.setChar(self.char)
-        
+
         let y = bounds.height / 2 / height
         self.updateAnchorPoint(CGPoint(x: 0.5, y: y), view1: v)
-        
+
         var tran = CATransform3DIdentity
         tran.m34 = m34
         tran = CATransform3DRotate(tran, CGFloat(-Double.pi) / 2, 1, 0, 0)
@@ -185,10 +190,7 @@ import UIKit
     
     /// 动画,从中部到底部
     private func animateMiddleToBottom(char:Character,completionHandle: (()->())?){
-        let m34:CGFloat = -1.0/500.0
-        
         let height = (bounds.height - interspace) / 2
-        
         
         let v:PPFHalfCharView = {
             let v = PPFHalfCharView(position: .up, offset: CGPoint(x: 0, y: interspace / 2))

@@ -19,6 +19,8 @@ class PPFHalfCharView: UIView {
     let offset:CGPoint
     let position:HalfCharViewPosition
     
+    private var labelUpOrDownConstraint:NSLayoutConstraint!
+    
     init(position:HalfCharViewPosition,offset:CGPoint) {
         self.position = position
         self.offset = offset
@@ -41,13 +43,14 @@ class PPFHalfCharView: UIView {
         charLabel.centerXAnchor.constraint(equalTo: centerXAnchor, constant: offset.x).isActive = true
         charLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         charLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        
         switch position {
         case .up:
-            charLabel.centerYAnchor.constraint(equalTo: topAnchor, constant: -offset.y).isActive = true
+            labelUpOrDownConstraint = charLabel.centerYAnchor.constraint(equalTo: topAnchor, constant: -offset.y)
+            labelUpOrDownConstraint.isActive = true
             charLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         case .down:
-            charLabel.centerYAnchor.constraint(equalTo: bottomAnchor, constant: offset.y).isActive = true
+            labelUpOrDownConstraint = charLabel.centerYAnchor.constraint(equalTo: bottomAnchor, constant: offset.y)
+            labelUpOrDownConstraint.isActive = true
             charLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         }
     }
@@ -58,5 +61,13 @@ class PPFHalfCharView: UIView {
     
     func setChar(_ char:Character) {
         charLabel.text = String(char)
+    }
+    func setLabelUpOrDownConstraint(constant:CGFloat){
+        switch position {
+        case .up:
+            labelUpOrDownConstraint.constant = -constant
+        case .down:
+            labelUpOrDownConstraint.constant = constant
+        }
     }
 }
